@@ -2,3 +2,6 @@
 .vscode
 data/*
 !data/.gitkeep
+!data/example.*
+config/*.json
+!config/config.template.json
