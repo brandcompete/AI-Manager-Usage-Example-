@@ -23,6 +23,12 @@ It is recommended to create a new Phython environment within the project. The .v
 ```
 python -m venv .venv
 ```
+### Activate python environment
+
+```
+source .venv/bin/activate
+```
+
 ### Install requirements
 You can install the SDK via pip
 ```
