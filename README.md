@@ -41,3 +41,8 @@ pip install -r requirements.txt
 
 ### Run main.py
 
+You can run the script via terminal or with an IDE like [Visual Studio Code](https://code.visualstudio.com/) or [PyCharm](https://www.jetbrains.com/de-de/pycharm/)
+
+```
+python main.py
+```
