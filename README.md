@@ -13,7 +13,7 @@ Python version: >=3.8.1,<3.12
 ### Download or clone this example project
 
 ```
-cd /path/to/projects
+cd /some/path
 git clone https://github.com/brandcompete/AI-Manager-Usage-Example.git
 ```
 
