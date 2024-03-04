@@ -19,31 +19,67 @@ def main():
     pw = config_content["password"]
 
     #2. Authorize and AI_ManServiceClient initiation
-    token_credential = TokenCredential(api_host_url=url, user_name=username, password=pw)
+    token_credential:TokenCredential = TokenCredential(api_host_url=url, user_name=username, password=pw)
+
+    print(token_credential.access)
     client = AI_ManServiceClient(credential=token_credential)
 
     #3. Fetch and print all available models. 
     models:List[AI_Model] = client.get_models()
     for model in models:
         print(f"- [ID:{model.id:2}] {model.name.upper():25} - {model.shortDescription}")
+      
     
     #4. Query the API
-    send_simple_text_query(client=client, model_id=2)
-    send_query_with_file_content(client=client, model_id=2)
+    #4.1 Simple query
+    result = client.prompt(model_id=1,query="Please tell me the name of the current president of the usa" )
+    print(f"result for 4.1: {result['ResponseText']}")
+    
+    #4.2 Query and append file content to query
+    result = client.prompt(model_id=1, query="From the given CSV file, how many rows are there?", loader=Loader.CSV, file_append_to_query='./data/example_customers.csv' )
+    print(f"result for 4.2: {result['ResponseText']}")
+
+    #4.3 Query and append file content to query, ragging files
+    result = client.prompt(
+         model_id=1, 
+         query="From the given excel sheet content, please give me the value of the column named 'first name' and 'last name' where the column 'id' has the value 8.",
+         loader=Loader.EXCEL, 
+         file_append_to_query='./data/example_customers.xlsx', 
+         files_to_rag=["./data/example_customers.xlsx"] )
+    print(f"result for 4.3: {result['ResponseText']}")
+
+    #4.4 Query with ragging files only 
+    result = client.prompt(
+         model_id=1, 
+         query="From the given excel sheet content, please give me the value of the column named 'first name' and 'last name' where the column 'id' has the value 10.", 
+         loader=Loader.EXCEL, 
+         files_to_rag=["./data/example_customers.xlsx"] )
+    print(f"result for 4.4: {result['ResponseText']}")
+
 
 def send_simple_text_query(client:AI_ManServiceClient, model_id:int = 1) -> None:
 
     query="What is the name of the current president of the united state of america?"
-    result = client.prompt(model_id=model_id,query=query )
-    print(f"Query: {query}")
-    print(f"Answere: {result}")
-
+    
+    
 def send_query_with_file_content(client:AI_ManServiceClient, model_id:int = 1) -> None:
+    #query = "Please describe the applicant and her skills"
+    #result = client.prompt(model_id=model_id,query=query, loader=Loader.PDF, file_path='./data/test_01.pdf' )
 
-    query="what is the sum of the ages of all entries"
-    result = client.prompt(model_id=model_id,query=query, loader=Loader.EXCEL, file_path='./data/example.xlsx' )
+    #query = "Please summarize the content"
+    #result = client.prompt(model_id=model_id,query=query, loader=Loader.PDF, file_path='./data/test.pdf' )
+    
+    query= f"""
+                From the given CSV file, 
+                how many rows are there?.    
+            """
+    result = client.prompt(model_id=model_id,query=query, loader=Loader.EXCEL, file_append_to_query='./data/Kundenliste.xlsx', files_to_rag=["./data/Kundenliste.xlsx"] )
+
+
     print(f"Query: {query}")
     print(f"Answere: {result}")
+
+    a = 1
 
 if __name__ == "__main__":
     main()
