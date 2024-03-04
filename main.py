@@ -56,30 +56,5 @@ def main():
          files_to_rag=["./data/example_customers.xlsx"] )
     print(f"result for 4.4: {result['ResponseText']}")
 
-
-def send_simple_text_query(client:AI_ManServiceClient, model_id:int = 1) -> None:
-
-    query="What is the name of the current president of the united state of america?"
-    
-    
-def send_query_with_file_content(client:AI_ManServiceClient, model_id:int = 1) -> None:
-    #query = "Please describe the applicant and her skills"
-    #result = client.prompt(model_id=model_id,query=query, loader=Loader.PDF, file_path='./data/test_01.pdf' )
-
-    #query = "Please summarize the content"
-    #result = client.prompt(model_id=model_id,query=query, loader=Loader.PDF, file_path='./data/test.pdf' )
-    
-    query= f"""
-                From the given CSV file, 
-                how many rows are there?.    
-            """
-    result = client.prompt(model_id=model_id,query=query, loader=Loader.EXCEL, file_append_to_query='./data/Kundenliste.xlsx', files_to_rag=["./data/Kundenliste.xlsx"] )
-
-
-    print(f"Query: {query}")
-    print(f"Answere: {result}")
-
-    a = 1
-
 if __name__ == "__main__":
     main()
