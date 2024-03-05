@@ -36,7 +36,7 @@ def main():
     print(f"result for 4.1: {result['ResponseText']}")
     
     #4.2 Query and append file content to query
-    result = client.prompt(model_id=1, query="From the given CSV file, how many rows are there?", loader=Loader.CSV, file_append_to_query='./data/example_customers.csv' )
+    result = client.prompt(model_id=1, query="From the given CSV file, how many rows are there?", loader=Loader.CSV, file_append_to_query=f"{Path(__file__).parent}/data/example_customers.csv" )
     print(f"result for 4.2: {result['ResponseText']}")
 
     #4.3 Query and append file content to query, ragging files
@@ -44,8 +44,8 @@ def main():
          model_id=1, 
          query="From the given excel sheet content, please give me the value of the column named 'first name' and 'last name' where the column 'id' has the value 8.",
          loader=Loader.EXCEL, 
-         file_append_to_query='./data/example_customers.xlsx', 
-         files_to_rag=["./data/example_customers.xlsx"] )
+         file_append_to_query=f"{Path(__file__).parent}/data/example_customers.xlsx", 
+         files_to_rag=[f"{Path(__file__).parent}/data/example_customers.xlsx"] )
     print(f"result for 4.3: {result['ResponseText']}")
 
     #4.4 Query with ragging files only 
@@ -53,7 +53,7 @@ def main():
          model_id=1, 
          query="From the given excel sheet content, please give me the value of the column named 'first name' and 'last name' where the column 'id' has the value 10.", 
          loader=Loader.EXCEL, 
-         files_to_rag=["./data/example_customers.xlsx"] )
+         files_to_rag=[f"{Path(__file__).parent}/data/example_customers.xlsx"] )
     print(f"result for 4.4: {result['ResponseText']}")
 
 if __name__ == "__main__":

@@ -3,5 +3,6 @@
 data/*
 !data/.gitkeep
 !data/example.*
+!data/example_*
 config/*.json
 !config/config.template.json
