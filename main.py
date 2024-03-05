@@ -33,7 +33,7 @@ def main():
     
     #4. Query the API
     #4.1 Simple query
-    result = client.prompt(model_id=1,query="Please tell me the name of the current president of the usa" )
+    result = client.prompt(model_id=1,query="Please tell me the name from the current president of the usa" )
     print(f"result for 4.1: {result['ResponseText']}")
     
     #4.2 Query and append file content to query
