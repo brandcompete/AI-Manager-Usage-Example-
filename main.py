@@ -77,6 +77,15 @@ def main():
     options.num_ctx = 8128
     options.raw = True
     options.temperature = 0.4
+    options.mirostat = 0
+    options.mirostat_eta = 0.1
+    options.mirostat_tau = 5
+    options.num_gqa = 8
+    options.num_gpu = 0
+    options.num_thread = 0
+    options.repeat_last_n = 64
+    options.repeat_penalty = 1.1
+    options.seed = 0
     
     #7. Prompting with datasources
     
