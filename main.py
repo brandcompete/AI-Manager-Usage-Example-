@@ -40,7 +40,7 @@ def main():
     response = client.prompt(
                 model_tag=model_to_query.defaultModelTagId, 
                 query="Who is the current president of the united states")
-    print(f"result for 5.1: {response['ResponseText']}")
+    print(f"result for 5.1: {response['responseText']}")
     
     #5.2 Query and append file content to query
     result = client.prompt(
@@ -48,24 +48,24 @@ def main():
          query="From the given CSV file, how many rows are there?", 
          loader=Loader.CSV, 
          file_append_to_query=f"{root_folder}/data/example_customers.csv" )
-    print(f"result for 5.2: {result['ResponseText']}")
+    print(f"result for 5.2: {result['responseText']}")
     
     #5.3 Query and append file content to query, ragging files
     result = client.prompt(
          model_tag=model_to_query.defaultModelTagId,
-         query="From the given excel sheet content, please give me the value of the column named 'first name' and 'last name' where the column 'id' has the value 8.",
+         query="From the given excel sheet content, please give me the value of the column named 'first name' and 'last name' where the column 'ID' has the value 8.",
          loader=Loader.EXCEL, 
          file_append_to_query=f"{root_folder}/data/example_customers.xlsx", 
          files_to_rag=[f"{root_folder}/data/example_customers.xlsx"] )
-    print(f"result for 5.3: {result['ResponseText']}")
+    print(f"result for 5.3: {result['responseText']}")
     
     #5.4 Query with ragging files only 
     result = client.prompt(
          model_tag=model_to_query.defaultModelTagId, 
-         query="From the given excel sheet content, please give me the value of the column named 'first name' and 'last name' where the column 'id' has the value 10.", 
+         query="From the given excel sheet content, please give me the value of the column named 'first name' and 'last name' where the column 'ID' has the value 10.", 
          loader=Loader.EXCEL, 
          files_to_rag=[f"{root_folder}/data/example_customers.xlsx"] )
-    print(f"result for 5.4: {result['ResponseText']}")
+    print(f"result for 5.4: {result['responseText']}")
     
     
     #6. Prompt options
@@ -102,27 +102,24 @@ def main():
         summary="New datasource for uploading some documents")
     
     #7.3 Or init a new datasource with a list of tags and categories
-    datasource_id = client.init_new_datasource(
-        name="Test datasource", 
-        summary="New datasource for uploading documents", 
-        tags=["tagA","tagB", "etc"], 
-        categories=["catA","catB","etc"])
-    
+    #TODO THA 2024-10-14 
+    # Fetch tags and categories first and use a list of tag and category id`s
+  
     #7.4 Add the new datasource to your account
     client.add_documents(
         data_source_id=datasource_id, 
-        sources=[f"{root_folder}/data/fleet_ops_template.xlsx"])
+        sources=[f"{root_folder}/data/example_customers.xlsx"])
     
     #Add multiple documents to a datasource (can be url or file)
     client.add_documents(
         data_source_id=datasource_id, 
-        sources=[f"path/to_my_data/test.pdf", "https://www.brandcompete.com"] )
+        sources=[f"{root_folder}/data/example_customers.xlsx", "https://www.brandcompete.com"] )
     
     #7.5. Prompt in conjunction with a datasource id
     response = client.prompt_on_datasource(
         datasource_id=datasource_id,
         model_tag_id=model_to_query.defaultModelTagId,
-        query="your ?",
+        query="your query?",
         prompt_options = None)
 
 if __name__ == "__main__":
